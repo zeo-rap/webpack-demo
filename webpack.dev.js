@@ -6,4 +6,12 @@ module.exports = {
     path: path.join(__dirname, "/dist"),
     filename: "index_bundle.js",
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
 };
