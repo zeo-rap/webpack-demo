@@ -1,36 +1,14 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const commonConfig = require("./webpack.common");
+const buildValidations = require("./build-validations");
+const { merge } = require("webpack-merge");
 
-module.exports = {
-  entry: "./src/index.js",
-  output: {
-    path: path.join(__dirname, "/dist"),
-    filename: "index_bundle.js",
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: "babel-loader",
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: "file-loader",
-          },
-        ],
-      },
-    ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-    }),
-  ],
+module.exports = (env) => {
+  if (!env) {
+    throw new Error(buildValidations.ERR_NO_ENV_FLAG);
+  }
+
+  const envConfig = require(`./webpack.${env.env}.js`);
+  const mergedConfig = merge(commonConfig, envConfig);
+  console.log(mergedConfig);
+  return mergedConfig;
 };
