@@ -4,7 +4,7 @@ module.exports = {
   mode: "development",
   output: {
     path: path.join(__dirname, "/dist"),
-    filename: "index_bundle.js",
+    filename: "[name]index_bundle.js",
   },
   module: {
     rules: [
